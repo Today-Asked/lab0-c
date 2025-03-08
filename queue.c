@@ -37,12 +37,38 @@ void q_free(struct list_head *head)
 /* Insert an element at head of queue */
 bool q_insert_head(struct list_head *head, char *s)
 {
+    if (!head)
+        return false;
+    element_t *element = malloc(sizeof(element_t));
+    if (!element)
+        return false;
+    element->value =
+        strdup(s);  // avoid dangling pointer. record in commit message
+    if (!element->value) {
+        free(element);
+        return false;
+    }
+    INIT_LIST_HEAD(&element->list);
+    list_add(&element->list, head);
     return true;
 }
 
 /* Insert an element at tail of queue */
 bool q_insert_tail(struct list_head *head, char *s)
 {
+    if (!head)
+        return false;
+    element_t *element = malloc(sizeof(element_t));
+    if (!element)
+        return false;
+    element->value =
+        strdup(s);  // avoid dangling pointer. record in commit message
+    if (!element->value) {
+        free(element);
+        return false;
+    }
+    INIT_LIST_HEAD(&element->list);
+    list_add(&element->list, head->prev);
     return true;
 }
 

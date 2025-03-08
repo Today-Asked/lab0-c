@@ -26,7 +26,7 @@ void q_free(struct list_head *head)
     struct list_head *li = head->next, *next;
     while (li != head) {
         next = li->next;
-        element_t *e = container_of(li, element_t, list);
+        element_t *e = list_entry(li, element_t, list);
         free(e->value);
         free(e);
         li = next;
@@ -93,7 +93,7 @@ element_t *q_remove_tail(struct list_head *head, char *sp, size_t bufsize)
     if (!head || head->next == head)
         return NULL;
     struct list_head *node = head->prev;
-    element_t *e = container_of(node, element_t, list);
+    element_t *e = list_entry(node, element_t, list);
     if (!e)
         return NULL;
     if (sp) {
